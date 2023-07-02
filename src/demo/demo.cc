@@ -1,6 +1,11 @@
 #include <opencv2/opencv.hpp>
 
 #include "cvplot/cvplot.h"
+#include <chrono>
+
+#ifndef M_PI
+#define M_PI 3.14159265359
+#endif
 
 namespace demo {
 
@@ -355,15 +360,87 @@ void mouse_callback(int event, int x, int y, int flags, void *param) {
   view.drawText(stream.str(), {10, 25}, cvplot::Black);
 }
 
+
+void signal_plot()
+{
+
+  const size_t signal_size = 16000;
+  const size_t num_signals = 32;
+
+  std::vector<std::pair<double, double>> data;
+  std::vector<std::vector<double>> signals(num_signals, std::vector<double>(signal_size));
+  std::vector<double> values2(signal_size);
+
+  std::vector<cvplot::Color> cols;
+
+  cols.push_back(cvplot::Red);
+  cols.push_back(cvplot::Orange);
+  cols.push_back(cvplot::Yellow);
+  cols.push_back(cvplot::Lawn);
+  cols.push_back(cvplot::Green);
+  cols.push_back(cvplot::Aqua);
+  cols.push_back(cvplot::Cyan);
+  cols.push_back(cvplot::Sky);
+  cols.push_back(cvplot::Blue);
+  cols.push_back(cvplot::Purple);
+  cols.push_back(cvplot::Magenta);
+  cols.push_back(cvplot::Pink);
+  cols.push_back(cvplot::Black);
+  cols.push_back(cvplot::Dark);
+
+
+  auto window = cvplot::Window("cvplot demo").offset({50, 50}).size(cvplot::Size(1000, 1000));
+
+  {
+    auto &view = window.view("math curves", {1000, 1000}).offset({0, 0});
+    auto figure = cvplot::Figure(view);
+    
+    using namespace std::chrono;
+
+    for(int n = 0; n < 1000; n++)
+    {
+
+    for (int j = 0; j < num_signals; j++) {
+    for (int i = 0; i < signal_size; i++)
+    {
+      if (j%2 == 0)
+      signals[j][i] = sin((i + n)/40.f * 2 * M_PI) / 2.f + j + 1;
+      else
+      signals[j][i] = ( - sin((i + n)/400.f * 2 * M_PI)) / 2.f + j + 1;
+
+    } 
+    }
+
+    auto start = high_resolution_clock::now();
+    
+    for (int j = 0; j < num_signals; j++)
+  {
+    figure.series(std::string("Ch ") + std::to_string(j))
+        .setValue(signals[j])
+        .type(cvplot::Line)
+        .color(cols[j % cols.size()]);
+  }
+  
+
+    figure.show(true);
+
+        auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(stop - start).count();
+
+    std::cout << duration << std::endl;
+    }
+
+  }
+}
 }  // namespace demo
 
 auto main(int /*argc*/, char ** /*argv*/) -> int {
-  demo::basic();
-  demo::highgui();
-  auto window = demo::transparency();
-  demo::figures();
+  // demo::basic();
+  // demo::highgui();
+  // auto window = demo::transparency();
+  demo::signal_plot();
   std::cout << "Demo completed. Ctrl+C to exit." << std::endl;
   cvplot::waitKey();
-  window.release();
+  // window.release();
   return 0;
 }

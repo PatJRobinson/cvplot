@@ -42,6 +42,17 @@ class View {
         text_color_(Black),
         mouse_callback_(nullptr),
         mouse_param_(nullptr) {}
+
+  // View(std::string title = "", Size size = {300, 300})
+  //     : title_(std::move(title)),
+  //       rect_(0, 0, size.width, size.height),
+  //       frameless_(false),
+  //       background_color_(Black),
+  //       frame_color_(Green),
+  //       text_color_(Black),
+  //       mouse_callback_(nullptr),
+  //       mouse_param_(nullptr) {}
+
   auto resize(Rect rect) -> View &;
   auto size(Size size) -> View &;
   auto offset(Offset offset) -> View &;

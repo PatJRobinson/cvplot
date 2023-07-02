@@ -70,6 +70,9 @@ class Series {
   auto setValue(const std::vector<double> &values) -> Series &;
   auto setValue(const std::vector<Point2> &values) -> Series &;
   auto setValue(const std::vector<Point3> &values) -> Series &;
+  
+  auto setValueSpecifyXAxis(const std::vector<double> &values, std::vector<double> &xaxis) -> Series &;
+
   auto set(double key, double value) -> Series &;
   auto set(double key, double value_a, double value_b) -> Series &;
   auto set(double key, double value_a, double value_b, double value_c)
@@ -140,9 +143,18 @@ class Figure {
   void draw(void *buffer, double x_min, double x_max, double y_min,
             double y_max, int n_max, int p_max) const;
   auto drawFit(void *buffer) const -> int;
+  auto drawFitSpecifyYaxis(void *buffer, double ymin, double ymax) const -> int;
+
   auto drawFile(const std::string &filename, Size size) const -> bool;
   void show(bool flush = true) const;
   auto series(const std::string &label) -> Series &;
+
+  void get_mat(void *img);
+
+  auto * get_view()
+  {
+    return &view_;
+  }
 
  protected:
   View &view_;
