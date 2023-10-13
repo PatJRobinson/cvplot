@@ -11,4 +11,4 @@ file(GLOB_RECURSE CVPLOT_SOURCES
 )
 
 add_library(${PROJECT_NAME} ${CVPLOT_SOURCES})
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include/cvplot)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
