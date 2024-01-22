@@ -210,11 +210,15 @@ Window::Window(std::string title)
       title_(std::move(title)),
       cursor_(-10, -10),
       name_("cvplot_" + std::to_string(clock())) {
+
+  std::cout << "Warning: Function no longer supported\n" ;
   // cv::namedWindow(name_, cv::WINDOW_AUTOSIZE);
   // cv::setMouseCallback(name_, mouse_callback, this);
 }
 
-Window::~Window() { cv::setMouseCallback(name_, mouse_callback, nullptr); }
+Window::~Window() { 
+  // cv::setMouseCallback(name_, mouse_callback, nullptr); 
+}
 
 auto Window::buffer() -> void * { return buffer_; }
 
@@ -245,7 +249,9 @@ auto Window::size(Size size) -> Window & {
 
 auto Window::offset(Offset offset) -> Window & {
   offset_ = offset;
-  cv::moveWindow(name_, offset.x, offset.y);
+
+  std::cout << "Warning: Function no longer supported\n" ;
+  // cv::moveWindow(name_, offset.x, offset.y);
   return *this;
 }
 
@@ -305,10 +311,13 @@ void Window::flush() {
         b = &mat;
       }
 #if CV_MAJOR_VERSION >= 3
-      cv::setWindowTitle(name_, title_);
+
+      // cv::setWindowTitle(name_, title_);
 #endif
-      cv::imshow(name_, *b);
-      Util::sleep();
+
+      std::cout << "Warning: Function no longer supported\n" ;
+      // cv::imshow(name_, *b);
+      // Util::sleep();
     }
   }
   dirty_ = false;
@@ -328,7 +337,8 @@ void Window::hide(bool hidden) {
   if (hidden_ != hidden) {
     hidden_ = hidden;
     if (hidden) {
-      cv::destroyWindow(name_);
+      std::cout << "Warning: Function no longer supported\n" ;
+      // cv::destroyWindow(name_);
     } else {
       dirty();
       flush();
@@ -355,35 +365,40 @@ void Window::current(Window &window) {
 // Util
 
 void Util::sleep(double seconds) {
-  cv::waitKey(std::max(1, static_cast<int>(seconds * 1000)));
+  std::cout << "Warning: Function no longer supported\n" ;
+  // cv::waitKey(std::max(1, static_cast<int>(seconds * 1000)));
 }
 
 auto Util::key(double timeout) -> int {
-  return cv::waitKey(std::max(0, static_cast<int>(timeout * 1000)));
+  std::cout << "Warning: Function no longer supported\n" ;
+  // return cv::waitKey(std::max(0, static_cast<int>(timeout * 1000)));
 }
 
 auto Util::line(double timeout) -> std::string {
+  std::cout << "Warning: Function no longer supported\n" ;
   std::stringstream stream;
   auto ms = (timeout > 0 ? std::max(1, static_cast<int>(timeout * 1000)) : -1);
-  while (ms != 0) {
-    auto key = cv::waitKey(1);
-    if (key == -1) {
-      ms--;
-      continue;
-    }
-    if (key == '\r' || key <= '\n') {
-      break;
-    }
-    if (key == '\b' || key == 127) {
-      auto s = stream.str();
-      stream = std::stringstream();
-      if (s.length() > 0) {
-        stream << s.substr(0, s.length() - 1);
-      }
-    } else {
-      stream << static_cast<char>(key);
-    }
-  }
+
+  std::cout << "Warning: Function no longer supported\n" ;
+  // while (ms != 0) {
+  //   // auto key = cv::waitKey(1);
+  //   // if (key == -1) {
+  //   //   ms--;
+  //   //   continue;
+  //   // }
+  //   // if (key == '\r' || key <= '\n') {
+  //   //   break;
+  //   // }
+  //   // if (key == '\b' || key == 127) {
+  //   //   auto s = stream.str();
+  //   //   stream = std::stringstream();
+  //   //   if (s.length() > 0) {
+  //   //     stream << s.substr(0, s.length() - 1);
+  //   //   }
+  //   // } else {
+  //   //   stream << static_cast<char>(key);
+  //   // }
+  // }
   return stream.str();
 }
 
