@@ -372,7 +372,7 @@ void Util::sleep(double seconds) {
 auto Util::key(double timeout) -> int {
   std::cout << "Warning: Function no longer supported\n" ;
   // return cv::waitKey(std::max(0, static_cast<int>(timeout * 1000)));
-  return 0;
+  return 1;
 }
 
 auto Util::line(double timeout) -> std::string {
